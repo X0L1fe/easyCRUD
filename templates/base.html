@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/toastr-for-me.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css')}}">
+    {% block links %}
+    {% endblock %}
+    <title>CRUD{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+
+<script>
+    $(document).ready(function () {
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    toastr["{{ category }}"]("{{ message }}")
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    });
+</script>
+</html>

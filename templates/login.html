@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css')}}">
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+{% endblock %}
+{% block title %} | Авторизация{% endblock %}
+{% block content %}
+<section>
+    <div class="form-box">
+        <div class="form-value">
+            <div class="page" id="logining">
+                <form method="POST" id="log">
+                    {{ form.hidden_tag() }}
+                    <h2>Войти</h2>
+                    <div class="inputbox">
+                        <ion-icon name="person-outline"></ion-icon>
+                        {{ form.username }}
+                        <label for="login">Логин:</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        {{ form.password }}
+                        <label for="password">Пароль:</label>
+                    </div>
+                    <button name="button">Войти</button>
+                    <div class="register">
+                        <p>Нет аккаунта?<a href="/register"> Зарегистрироваться</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+

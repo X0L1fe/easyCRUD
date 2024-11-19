@@ -1,0 +1,34 @@
+<!-- css -->
+<!--всё для меню ниже-->
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js" defer></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css')}}">
+<!--  Menu -->
+<input type="checkbox" class="toggler">
+<div class="hamburger">
+    <div></div>
+</div>
+<div class="menu">
+    <div>
+        <ul>
+            <li><a href="{{ url_for('home') }}"><i data-feather="home"></i> Главная</a></li>
+            <li><a href="{{ url_for('about') }}"><i data-feather="info"></i> О нас</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('logout') }}"><i data-feather="log-out"></i> Выйти</a></li>
+            {% else %}
+                <li><a href="{{ url_for('register') }}"><i data-feather="user-plus"></i> Регистрация</a></li>
+                <li><a href="{{ url_for('login') }}"><i data-feather="user-check"></i> Авторизация</a></li>
+            {% endif %}
+        </ul>
+
+    </div>
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        feather.replace();
+    });
+</script>
+<script src='https://unpkg.com/feather-icons' defer></script>
