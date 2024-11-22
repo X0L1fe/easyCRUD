@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block links %}
+<script src="{{ url_for('static', filename='js/forms.js')}}" type="text/javascript" defer></script>
+{% endblock %}
+
 {% block content %}
 {% include 'base-menu.html' %}
 <div class="main-content">
@@ -8,13 +13,30 @@
         <input type="text" name="description" placeholder="Описание">
         <button type="submit">Добавить предмет</button>
     </form>
-    <ul>
+    <ul style="list-style-type: decimal;">
         {% for item in items %}
-        <li>
-            {{ item.name }}: {{ item.description }}
-            <a href="{{ url_for('delete_item', item_id=item.id) }}">Delete</a>
+        <li id="item-{{ item.id }}">
+            <span class="item-data">
+                {{ item.name }}: {{ item.description }}
+            </span>
+
+            <button type="button" onclick="toggleEditForm({{ item.id }})"
+                id="update-btn-{{ item.id }}">Обновить</button>
+            <a href="{{ url_for('delete_item', item_id=item.id) }}" id="delete-btn-{{ item.id }}">Удалить</a>
+
+            <!-- Скрытая форма для редактирования -->
+            <form action="{{ url_for('update_item', item_id=item.id) }}" method="POST" class="edit-form"
+                id="form-{{ item.id }}" style="display: none;">
+                <input type="hidden" name="_method" value="PUT">
+                <input type="text" name="name" value="{{ item.name }}" required>
+                <input type="text" name="description" value="{{ item.description }}">
+                <button type="submit">Сохранить</button>
+                <button type="button" onclick="toggleEditForm({{ item.id }})">Отметить</button>
+            </form>
         </li>
         {% endfor %}
     </ul>
 </div>
+<script>
+</script>
 {% endblock %}
