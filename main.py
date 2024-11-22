@@ -225,7 +225,7 @@ def update_item(item_id):
             flash('Ошибка при обновлении предмета.', 'error')
             return redirect(url_for('home'))
 
-@app.route('/delete/<int:item_id>', methods=['DELETE'])
+@app.route('/delete/<int:item_id>', methods=['POST'])
 @unified_auth_required
 def delete_item(item_id):
     item = Item.query.filter_by(id=item_id, user_id=request.user.id).first()
@@ -235,6 +235,7 @@ def delete_item(item_id):
         else:
             flash('Предмет не найден.', 'error')
             return redirect(url_for('home'))
+
     try:
         db.session.delete(item)
         db.session.commit()
