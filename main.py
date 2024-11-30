@@ -48,6 +48,13 @@ class User(UserMixin, db.Model):
         except jwt.InvalidTokenError:
             return None
 
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+        return self.password
+        
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
 # Модель для CRUD
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -145,7 +152,7 @@ def logout():
     flash('Вы вышли из своего аккаунта.', 'info')
     return redirect(url_for('login'))
 
-@app.route('/items', methods=['GET'])
+@app.route('/items', methods=['GET', 'POST'])
 @unified_auth_required
 def get_items():
     items = Item.query.filter_by(user_id=request.user.id).all()
@@ -252,12 +259,13 @@ def delete_item(item_id):
             flash('Ошибка при удалении предмета.', 'error')
             return redirect(url_for('home'))
 
-
 #API POSTMAN OR 1C_REQUEST
 @app.route('/token', methods=['POST'])
 def get_token():
-    username = request.json.get('username')
-    password = request.json.get('password')
+    data = get_request_data()
+    print(data)
+    username = data.get('username')
+    password = data.get('password')
     user = User.query.filter_by(username=username).first()
 
     if user and user.check_password(password):  # Метод `check_password` нужно реализовать в модели User
